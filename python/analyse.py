@@ -1,6 +1,8 @@
-import yaml
-import os
 
-if(__name__ == "__main__"):
-    batsmanrate()
-    
+
+
+def analyseBatsman_UniqueBowler():
+
+    batsmanDict = dict()
+
+    dataFp = open("output.csv", "r")
