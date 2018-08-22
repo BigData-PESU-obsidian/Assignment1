@@ -62,17 +62,13 @@ def makecsv():
     listFiles = filespath()
     numOfFiles = len(listFiles) - 1
     i = 0
-    percentage = 10
     start = time.time()
     for fileId in listFiles:
         i += 1
         yaml2csv(fileId)
-        if(((i/numOfFiles)*100) >= percentage):
-            timestep = time.time() - start
-            print(" {} % converting to .csv done. Running time {} seconds".format(percentage, timestep))
-            percentage += 10
-            
-    print("Total time taken = {}".format(timestep))
-              
+
+    timestep = time.time() - start
+    return(timestep)
+    
 if(__name__=="__main__"):
     makecsv()

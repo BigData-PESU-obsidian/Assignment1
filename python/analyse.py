@@ -1,5 +1,6 @@
 import time
 import csv
+import makeCSV
 
 def analyseBatBall(printAll = False):
     """
@@ -33,11 +34,52 @@ def analyseBatBall(printAll = False):
             else:
                 bowlerDict[bowler][batsman] = runs
                 
-    if(printAll = True):
+    if(printAll == True):
         writeCSV(batsmanDict, "batvul.csv")
         writeCSV(bowlerDict, "ballvul.csv")
-    return([batsmanDict, bowlerDict])
 
+    #vulnerable_batsman_bowler( batsmanDict, bowlerDict)
+    return([batsmanDict, bowlerDict])
+    
+def vulnerable_batsman_bowler( batsmen, bowlers):
+    batsmenmax={}
+    bowlermax={}
+
+    battime = time.time()
+    fp = open("BatsmenVulnerability.csv", "w")
+    writer = csv.writer(fp)
+    for batsman in batsmen:
+        batsmenmax[batsman]={}
+        try:
+            maxwickets=max(batsmen[batsman].values())
+        except:
+            maxwickets = 0
+        for key,value in batsmen[batsman].items():
+            if value==maxwickets:
+                batsmenmax[batsman][key]=value
+        writer.writerow([batsman]+[str(vul)+","+str(batsmenmax[batsman][vul]) for vul in batsmenmax[batsman]])
+        #print(" batsman {} is more vulnerable with bowlers {}".format(batsman,batsmenmax[batsman]))
+    fp.close()
+    battime = time.time() - battime
+
+    bowltime = time.time()
+    fp = open("BowlersVulnerability.csv", "w")
+    writer = csv.writer(fp)
+    for bowler in bowlers.keys():
+        bowlermax[bowler]={}
+        try:
+            maxruns=max(bowlers[bowler].values())
+        except:
+            maxruns = 0
+        for key,value in bowlers[bowler].items():
+            if value==maxruns:
+                bowlermax[bowler][key]=value
+        writer.writerow([bowler]+[str(vul)+","+str(bowlermax[bowler][vul]) for vul in bowlermax[bowler]])
+        #print(" bowler {} is more vulnerable with {}".format(bowler,bowlermax[bowler]))
+    fp.close()
+    bowltime = time.time() - bowltime
+    
+    return(battime, bowltime)
 
 def writeCSV( playerDict, fileName):
     fp = open( fileName, "w")
@@ -60,33 +102,18 @@ def writeCSV( playerDict, fileName):
         writer.writerow([player] + [total] + [playerDict[player][allOpp[i]] for i in range(len(allOpp))])
     fp.close()
 
-def vulnerable_batsman_bowler(batsmen,bowler):
-    batsmenmax={}
-    bowlermax={}
-    
-    for batsman in batsmen:
-        batsmenmax[batsman]={}
-        maxwickets=max(batsmen[batsman].values())
-        for key,value in batsmen[batsman].items():
-            if value==maxwickets:
-                batsmenmax[batsman][key]=value
-        print(" batsman {} is more vulnerable with bowlers \n{}".format(batsman,batsmenmax[batsman]))
 
-
-    for bowler in bowlers:
-        bowlermax[bowler]={}
-        maxruns=max(bowlers[bowler].values())
-        for key,value in bowlers[bowler].items():
-            if value==maxruns:
-                bowlermax[bowler][key]=value
-        print(" bowler {} is more vulnerable with  \n{}".format(bowler,bowlermax[bowler]))
-        
-        
-    return([batsmenmax,bowlermax])
-    
 if(__name__=="__main__"):
+
+    convtime = 0
     
     start = time.time()
+    #convtime = makeCSV.makecsv() 
+    print("Time taken for conversion : {}".format(convtime))
     retDat = analyseBatBall()
-    print("Time take : {} seconds".format(time.time() - start))
+    battime, bowltime = vulnerable_batsman_bowler(retDat[0], retDat[1])
+    print("Time taken to get batsmen vulneribility data : {} seconds".format(battime + convtime))
+    print("Time taken to get bowlers vulneribility data : {} seconds".format(bowltime + convtime))
+
+    print("Total take : {} seconds".format(time.time() - start))
     
