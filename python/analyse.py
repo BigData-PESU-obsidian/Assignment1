@@ -108,7 +108,7 @@ if(__name__=="__main__"):
     convtime = 0
     
     start = time.time()
-    #convtime = makeCSV.makecsv() 
+    convtime = makeCSV.makecsv() 
     print("Time taken for conversion : {}".format(convtime))
     retDat = analyseBatBall()
     battime, bowltime = vulnerable_batsman_bowler(retDat[0], retDat[1])
