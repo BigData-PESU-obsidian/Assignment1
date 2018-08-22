@@ -102,18 +102,16 @@ def writeCSV( playerDict, fileName):
         writer.writerow([player] + [total] + [playerDict[player][allOpp[i]] for i in range(len(allOpp))])
     fp.close()
 
-
 if(__name__=="__main__"):
 
     convtime = 0
     
     start = time.time()
     convtime = makeCSV.makecsv() 
-    print("Time taken for conversion : {}".format(convtime))
+    print("Time taken for conversion from .yaml to .csv : {} seconds".format(convtime))
     retDat = analyseBatBall()
     battime, bowltime = vulnerable_batsman_bowler(retDat[0], retDat[1])
-    print("Time taken to get batsmen vulneribility data : {} seconds".format(battime + convtime))
-    print("Time taken to get bowlers vulneribility data : {} seconds".format(bowltime + convtime))
-
+    print("Time taken to get batsmen vulneribility data : {} seconds".format(battime))
+    print("Time taken to get bowlers vulneribility data : {} seconds".format(bowltime))
     print("Total take : {} seconds".format(time.time() - start))
     
