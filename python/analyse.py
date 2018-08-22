@@ -60,6 +60,29 @@ def writeCSV( playerDict, fileName):
         writer.writerow([player] + [total] + [playerDict[player][allOpp[i]] for i in range(len(allOpp))])
     fp.close()
 
+def vulnerable_batsman_bowler(batsmen,bowler):
+    batsmenmax={}
+    bowlermax={}
+    
+    for batsman in batsmen:
+        batsmenmax[batsman]={}
+        maxwickets=max(batsmen[batsman].values())
+        for key,value in batsmen[batsman].items():
+            if value==maxwickets:
+                batsmenmax[batsman][key]=value
+        print(" batsman {} is more vulnerable with bowlers \n{}".format(batsman,batsmenmax[batsman]))
+
+
+    for bowler in bowlers:
+        bowlermax[bowler]={}
+        maxruns=max(bowlers[bowler].values())
+        for key,value in bowlers[bowler].items():
+            if value==maxruns:
+                bowlermax[bowler][key]=value
+        print(" bowler {} is more vulnerable with  \n{}".format(bowler,bowlermax[bowler]))
+        
+        
+    return([batsmenmax,bowlermax])
     
 if(__name__=="__main__"):
     
