@@ -109,9 +109,12 @@ if(__name__=="__main__"):
     start = time.time()
     convtime = makeCSV.makecsv() 
     print("Time taken for conversion from .yaml to .csv : {} seconds".format(convtime))
+    analyseStart = time.time()
     retDat = analyseBatBall()
+    analyseStart = time.time() - analyseStart
     battime, bowltime = vulnerable_batsman_bowler(retDat[0], retDat[1])
+    print("Time taken to construct Data Structures      : {} seconds".format(analyseStart))
     print("Time taken to get batsmen vulneribility data : {} seconds".format(battime))
     print("Time taken to get bowlers vulneribility data : {} seconds".format(bowltime))
-    print("Total take : {} seconds".format(time.time() - start))
+    print("Total take                                   : {} seconds".format(time.time() - start))
     
