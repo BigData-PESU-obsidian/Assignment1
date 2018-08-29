@@ -9,8 +9,9 @@ def yaml2csv(fileName):
         #myrows=["batsman","Bowler","batsman_runs","extras","player_out_name"]
         writer=csv.writer(csvfile)
         #writer.writerow(myrows)
-        with open('../data/'+fileName, 'r') as fp:   
-            data = yaml.load(fp)
+        fp =  open('../data/'+fileName, 'r')   
+        data = yaml.load(fp)
+        fp.close()
         #data.get("innings") is a list of length 2 
         innings1=(data.get("innings")[0])  #ist innings   
         try:
@@ -21,6 +22,10 @@ def yaml2csv(fileName):
         #print(over1_ball1.get(0.1).get("batsman"))
         for info in innings1.get("1st innings").get("deliveries"):       
             for balls in info:
+                
+                #print(type(balls))
+                #print(balls)
+                
                 #print(info.get(balls))
                 #print("########################################")
                 batsman_name=info.get(balls).get("batsman")
@@ -35,10 +40,13 @@ def yaml2csv(fileName):
                     player_out_name="NA"
                     
                 writer.writerow([batsman_name,bowler_name,batsman_runs,extras,player_out_name])
-
+                
         if(not no2ing):
             for info in innings2.get("2nd innings").get("deliveries"):       
                 for balls in info:
+                    #print(type(balls))
+                    #print(balls)
+                    
                     #print(info.get(balls))      gives detail about each ball
                     #print("########################################")
                     batsman_name=info.get(balls).get("batsman")
@@ -53,20 +61,24 @@ def yaml2csv(fileName):
                         player_out_name="NA"
                         
                     writer.writerow([batsman_name,bowler_name,batsman_runs,extras,player_out_name])
-
+                    
 
 def filespath():
     return(os.listdir(os.getcwd()+"/../data"))
 
 def makecsv():
+    fp = open('allBallDetail.csv', "w")
+    fp.close()
     listFiles = filespath()
     numOfFiles = len(listFiles) - 1
     i = 0
     start = time.time()
+    
     for fileId in listFiles:
         i += 1
         yaml2csv(fileId)
 
+    #print(len(listFiles))
     timestep = time.time() - start
     return(timestep)
     

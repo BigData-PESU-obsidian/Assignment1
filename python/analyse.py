@@ -118,3 +118,4 @@ if(__name__=="__main__"):
     print("Time taken to get bowlers vulneribility data : {} seconds".format(bowltime))
     print("Total take                                   : {} seconds".format(time.time() - start))
     
+'allBallDetail.csv
